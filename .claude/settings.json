@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh auth:*)",
+      "Bash(gh repo:*)",
+      "Bash(curl -L \"https://s.wordpress.com/mshots/v1/https%3A%2F%2Fbenchmarkremodelingwa.com%2F?w=1400&h=900\" -o \"/Users/mishaporotikow/Desktop/porotikow agency/benchmark-preview.jpg\" --max-time 15 -s -w \"%{http_code} %{size_download}\")",
+      "Bash(curl -L \"https://image.thum.io/get/width/1400/crop/900/noanimate/https://benchmarkremodelingwa.com/\" -o \"/Users/mishaporotikow/Desktop/porotikow agency/benchmark-preview.jpg\" --max-time 20 -s -w \"%{http_code} %{size_download}\")"
+    ]
+  }
+}

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Porotikow Agency — Веб-разработка, SEO, Брендинг</title>
-  <meta name="description" content="Porotikow Agency — цифровое агентство, специализирующееся на веб-разработке, SEO и брендинге." />
+  <title>Porotikow Agency — Веб-розробка, SEO, Брендинг</title>
+  <meta name="description" content="Porotikow Agency — діджитал агенція, що спеціалізується на веб-розробці, SEO та брендингу. Україна." />
   <style>
     /*
       Положи файл Druk Cyr Medium в папку проекта и замени 'DrukCyr-Medium.woff2'
@@ -166,6 +166,8 @@
       cursor: pointer;
       aspect-ratio: 4/3;
       transition: transform 0.35s cubic-bezier(.22,.68,0,1.2);
+      display: block;
+      text-decoration: none;
     }
 
     .card.wide {
@@ -176,6 +178,7 @@
     .card img {
       width: 100%; height: 100%;
       object-fit: cover;
+      object-position: top;
       display: block;
     }
 
@@ -184,26 +187,33 @@
     .card-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0);
-      transition: background 0.3s;
+      background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
       display: flex;
       align-items: flex-end;
+      justify-content: space-between;
       padding: 22px 26px;
     }
 
-    .card:hover .card-overlay { background: rgba(0,0,0,0.38); }
-
     .card-label {
-      font-family: 'Druk Cyr', 'Helvetica Neue', sans-serif;
-      font-size: 24px;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 15px;
+      font-weight: 500;
       letter-spacing: -0.02em;
       color: var(--white);
-      opacity: 0;
-      transform: translateY(8px);
-      transition: all 0.3s;
     }
 
-    .card:hover .card-label { opacity: 1; transform: translateY(0); }
+    .card-arrow {
+      font-size: 20px;
+      color: var(--white);
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .card:hover .card-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
 
     /* ─── ABOUT ─── */
     #about {
@@ -226,6 +236,64 @@
       font-size: 15px;
       line-height: 1.75;
       color: var(--white);
+      margin-bottom: 80px;
+    }
+
+    /* ─── FAQ ─── */
+    .faq {
+      margin-top: 80px;
+      border-top: 1px solid rgba(225,225,225,0.15);
+    }
+
+    .faq-item {
+      border-bottom: 1px solid rgba(225,225,225,0.15);
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 500;
+      font-size: 18px;
+      text-align: left;
+      padding: 28px 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .faq-question span.icon {
+      font-size: 24px;
+      line-height: 1;
+      transition: transform 0.35s ease;
+      flex-shrink: 0;
+      opacity: 0.5;
+    }
+
+    .faq-item.open .faq-question span.icon {
+      transform: rotate(45deg);
+      opacity: 1;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      font-size: 15px;
+      line-height: 1.75;
+      color: rgba(225,225,225,0.6);
+      padding: 0;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding-bottom: 28px;
     }
 
     /* ─── CONTACT ─── */
@@ -313,34 +381,37 @@
 <section id="projects">
   <div class="projects-grid">
 
+    <a class="card wide reveal" href="https://benchmarkremodelingwa.com/" target="_blank" rel="noopener">
+      <img src="benchmark.jpg" alt="Benchmark Remodeling" />
+      <div class="card-overlay">
+        <span class="card-label">Benchmark Remodeling / Веб-розробка</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <div class="card reveal">
+      <!-- <img src="projects/project-2.jpg" alt="Проєкт 2" /> -->
+      <div class="card-overlay"><span class="card-label">Проєкт 2</span><span class="card-arrow">→</span></div>
+    </div>
+
+    <div class="card reveal">
+      <!-- <img src="projects/project-3.jpg" alt="Проєкт 3" /> -->
+      <div class="card-overlay"><span class="card-label">Проєкт 3</span><span class="card-arrow">→</span></div>
+    </div>
+
     <div class="card wide reveal">
-      <!-- <img src="projects/project-1.jpg" alt="Проект 1" /> -->
-      <div class="card-overlay"><span class="card-label">Проект 1</span></div>
+      <!-- <img src="projects/project-4.jpg" alt="Проєкт 4" /> -->
+      <div class="card-overlay"><span class="card-label">Проєкт 4</span><span class="card-arrow">→</span></div>
     </div>
 
     <div class="card reveal">
-      <!-- <img src="projects/project-2.jpg" alt="Проект 2" /> -->
-      <div class="card-overlay"><span class="card-label">Проект 2</span></div>
+      <!-- <img src="projects/project-5.jpg" alt="Проєкт 5" /> -->
+      <div class="card-overlay"><span class="card-label">Проєкт 5</span><span class="card-arrow">→</span></div>
     </div>
 
     <div class="card reveal">
-      <!-- <img src="projects/project-3.jpg" alt="Проект 3" /> -->
-      <div class="card-overlay"><span class="card-label">Проект 3</span></div>
-    </div>
-
-    <div class="card wide reveal">
-      <!-- <img src="projects/project-4.jpg" alt="Проект 4" /> -->
-      <div class="card-overlay"><span class="card-label">Проект 4</span></div>
-    </div>
-
-    <div class="card reveal">
-      <!-- <img src="projects/project-5.jpg" alt="Проект 5" /> -->
-      <div class="card-overlay"><span class="card-label">Проект 5</span></div>
-    </div>
-
-    <div class="card reveal">
-      <!-- <img src="projects/project-6.jpg" alt="Проект 6" /> -->
-      <div class="card-overlay"><span class="card-label">Проект 6</span></div>
+      <!-- <img src="projects/project-6.jpg" alt="Проєкт 6" /> -->
+      <div class="card-overlay"><span class="card-label">Проєкт 6</span><span class="card-arrow">→</span></div>
     </div>
 
   </div>
@@ -350,11 +421,55 @@
 <section id="about">
   <h2 class="about-heading reveal">About</h2>
   <p class="about-body reveal">
-    Porotikow Agency — агентство полного цикла для тех, кто хочет роста в интернете.
-    Мы занимаемся веб-разработкой, SEO-продвижением и созданием фирменного стиля.
-    Каждый проект — это индивидуальный подход, чёткие сроки и результат,
-    который говорит сам за себя.
+    Porotikow Agency — агенція повного циклу для тих, хто хоче зростання в інтернеті.
+    Ми займаємося веб-розробкою, SEO-просуванням та створенням фірмового стилю.
+    Кожен проєкт — це індивідуальний підхід, чіткі терміни та результат,
+    який говорить сам за себе.
   </p>
+
+  <div class="faq reveal">
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Скільки коштує розробка сайту?
+        <span class="icon">+</span>
+      </button>
+      <div class="faq-answer">Вартість залежить від складності проєкту. Лендінг — від 20 000 грн, корпоративний сайт — від 50 000 грн. Точну ціну називаємо після брифу — це безкоштовно.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Скільки часу займає розробка?
+        <span class="icon">+</span>
+      </button>
+      <div class="faq-answer">Лендінг — 7–14 днів. Корпоративний сайт — 3–6 тижнів. Терміни фіксуємо в договорі та не зсуваємо без погодження з клієнтом.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Ви працюєте з клієнтами з інших міст?
+        <span class="icon">+</span>
+      </button>
+      <div class="faq-answer">Так, ми працюємо дистанційно по всій Україні та за кордоном. Всі етапи — від брифу до здачі — проходять онлайн через зручні для вас канали зв'язку.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Що входить у SEO-просування?
+        <span class="icon">+</span>
+      </button>
+      <div class="faq-answer">Технічний аудит, робота з семантикою, оптимізація контенту, нарощування посилальної маси та щомісячна звітність. Результати помітні через 2–3 місяці.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Чи можна передати вже існуючий сайт на підтримку?
+        <span class="icon">+</span>
+      </button>
+      <div class="faq-answer">Так. Беремо сайти на будь-яких платформах. Спочатку проводимо аудит, погоджуємо обсяг робіт та фіксуємо умови в договорі.</div>
+    </div>
+
+  </div>
 </section>
 
 <!-- CONTACT -->
@@ -391,6 +506,16 @@
   }, { threshold: 0.12 });
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
 </script>
 
 </body>
