@@ -31,7 +31,7 @@
       background: var(--black);
       color: var(--white);
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      font-weight: 500;
+      font-weight: 400;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
@@ -248,7 +248,7 @@
     .card img {
       width: 100%; height: 100%;
       object-fit: cover;
-      object-position: top;
+      object-position: center top;
       display: block;
     }
     .card:hover { transform: scale(1.02); }
@@ -260,12 +260,16 @@
       align-items: flex-end;
       justify-content: space-between;
       padding: 22px 26px;
+      opacity: 0;
+      transition: opacity 0.3s;
     }
+    .card:hover .card-overlay { opacity: 1; }
     .card-label {
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 500;
       letter-spacing: -0.02em;
+      text-transform: uppercase;
       color: var(--white);
       -webkit-font-smoothing: antialiased;
     }
@@ -305,9 +309,10 @@
     }
     .about-body {
       max-width: 560px;
-      font-size: 15px;
-      line-height: 1.75;
-      color: var(--white);
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: rgba(225,225,225,0.75);
       margin-bottom: 80px;
       opacity: 0;
       transform: translateY(28px);
@@ -333,7 +338,7 @@
       color: var(--white);
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-weight: 500;
-      font-size: 18px;
+      font-size: 20px;
       text-align: left;
       padding: 28px 0;
       cursor: pointer;
@@ -358,9 +363,10 @@
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.4s ease, padding 0.4s ease;
-      font-size: 15px;
-      line-height: 1.75;
-      color: rgba(225,225,225,0.6);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: rgba(225,225,225,0.5);
       padding: 0;
     }
     .faq-item.open .faq-answer {
@@ -460,11 +466,50 @@
     .hero-cta:hover .hero-cta-arrow { transform: translateX(3px); }
 
     .contact-scroll {
-      font-size: 10px;
+      font-size: 11px;
+      font-weight: 400;
       letter-spacing: -0.02em;
       text-transform: uppercase;
       opacity: 0.35;
       margin-top: 60px;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 767px) {
+      nav { padding: 16px 20px; }
+
+      .lang-toggle-wrap { right: 20px; }
+
+      .hero-content { padding: 0 20px calc(80px + 10vh); }
+
+      .marquee-item, .marquee-div { font-size: 48px; }
+
+      #projects { padding: 20px; }
+      .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .card { aspect-ratio: 4/3; }
+      .card.wide { aspect-ratio: 4/3; }
+      .card img { object-position: center top; }
+
+      #about { padding: 56px 20px 72px; }
+
+      .faq-question { font-size: 16px; padding: 22px 0; }
+      .faq-answer { font-size: 15px; }
+
+      #contact { padding: 52px 20px 40px; }
+      .contact-links { gap: 24px; margin-top: 40px; }
+
+      .hero-cta { min-width: unset; padding: 16px 40px; font-size: 13px; }
+    }
+
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .card img { object-position: center top; }
+      .projects-grid { gap: 10px; }
+      #projects { padding: 24px; }
+      #about { padding: 72px 24px 88px; }
+      #contact { padding: 64px 24px 48px; }
     }
   </style>
 </head>
@@ -530,45 +575,41 @@
   <div class="projects-grid">
 
     <a class="card wide" href="https://benchmarkremodelingwa.com/" target="_blank" rel="noopener">
-      <img src="benchmark.jpg" alt="Benchmark Remodeling" />
+      <img src="benchmark-preview.jpg" alt="Benchmark Remodeling" />
       <div class="card-overlay">
         <span class="card-label" data-uk="Benchmark Remodeling / Веб-розробка" data-en="Benchmark Remodeling / Web Development">Benchmark Remodeling / Веб-розробка</span>
-        <span class="card-arrow">→</span>
       </div>
     </a>
 
-    <div class="card">
+    <a class="card" href="https://khkp-anniversary-production.up.railway.app/" target="_blank" rel="noopener">
+      <img src="khkp-preview.png" alt="KHKP Anniversary" />
       <div class="card-overlay">
-        <span class="card-label" data-uk="Проєкт 2" data-en="Project 2">Проєкт 2</span>
-        <span class="card-arrow">→</span>
+        <span class="card-label" data-uk="ХКП — Лендінг / Веб-розробка" data-en="KHKP — Landing / Web Development">ХКП — Лендінг / Веб-розробка</span>
       </div>
-    </div>
+    </a>
 
-    <div class="card">
+    <a class="card" href="https://dialogiq.school/" target="_blank" rel="noopener">
+      <img src="dialogiq-preview.jpg" alt="Dialogiq School" />
       <div class="card-overlay">
-        <span class="card-label" data-uk="Проєкт 3" data-en="Project 3">Проєкт 3</span>
-        <span class="card-arrow">→</span>
+        <span class="card-label" data-uk="Dialogiq — Лендінг / Веб-розробка" data-en="Dialogiq — Landing / Web Development">Dialogiq — Лендінг / Веб-розробка</span>
       </div>
-    </div>
+    </a>
 
     <div class="card wide">
       <div class="card-overlay">
         <span class="card-label" data-uk="Проєкт 4" data-en="Project 4">Проєкт 4</span>
-        <span class="card-arrow">→</span>
       </div>
     </div>
 
     <div class="card">
       <div class="card-overlay">
         <span class="card-label" data-uk="Проєкт 5" data-en="Project 5">Проєкт 5</span>
-        <span class="card-arrow">→</span>
       </div>
     </div>
 
     <div class="card">
       <div class="card-overlay">
         <span class="card-label" data-uk="Проєкт 6" data-en="Project 6">Проєкт 6</span>
-        <span class="card-arrow">→</span>
       </div>
     </div>
 
@@ -688,14 +729,7 @@
   gsap.registerPlugin(ScrollTrigger);
 
   /* ─── LENIS ─── */
-  const lenis = new Lenis({
-    duration: 1.6,
-    easing: t => 1 - Math.pow(1 - t, 4),
-    smoothWheel: true,
-    wheelMultiplier: 0.8,
-    touchMultiplier: 1.5,
-    lerp: 0.08,
-  });
+  const lenis = new Lenis();
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add(time => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
@@ -795,7 +829,7 @@
   let targetSpeed = 1, currentSpeed = 1;
   gsap.ticker.add(() => {
     currentSpeed += (targetSpeed - currentSpeed) * 0.08;
-    targetSpeed  += (1 - targetSpeed) * 0.06;
+    targetSpeed  += (1 - targetSpeed) * 0.18;
     marquee.tween.timeScale(currentSpeed);
   });
 
@@ -803,7 +837,7 @@
   const navEl = document.querySelector('nav');
   lenis.on('scroll', ({ scroll, velocity }) => {
     navEl.classList.toggle('scrolled', scroll > 10);
-    targetSpeed = 1 + Math.abs(velocity) * 0.8;
+    targetSpeed = 1 + Math.abs(velocity) * 0.30;
   });
 
   /* ─── SMOOTH ANCHOR LINKS ─── */
