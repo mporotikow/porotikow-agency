@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Porotikow Agency — Веб-розробка, SEO, Брендинг</title>
   <meta name="description" content="Porotikow Agency — діджитал агенція, що спеціалізується на веб-розробці, SEO та брендингу. Україна." />
   <style>
-    /*
-      Положи файл Druk Cyr Medium в папку проекта и замени 'DrukCyr-Medium.woff2'
-      на реальное имя файла.
-    */
     @font-face {
       font-family: 'Druk Cyr';
       src: url('DrukCyr-Medium.woff2') format('woff2'),
@@ -22,20 +18,6 @@
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
 
-    html, body {
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    .hero-title, .about-heading, .contact-heading, .card-label {
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      transform: translateZ(0);
-      text-shadow: none;
-      font-weight: 500;
-      font-synthesis: none;
-    }
-
     :root {
       --orange: #E84525;
       --black: #0d0d0d;
@@ -43,7 +25,7 @@
       --light: #ebebeb;
     }
 
-    html { scroll-behavior: smooth; }
+    html { overscroll-behavior-y: none; }
 
     body {
       background: var(--black);
@@ -51,7 +33,9 @@
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-weight: 500;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
+      overscroll-behavior-y: none;
     }
 
     /* ─── NAV ─── */
@@ -63,15 +47,27 @@
       justify-content: space-between;
       align-items: center;
       padding: 20px 36px;
-      transition: box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+      transition: backdrop-filter 0.4s ease, box-shadow 0.4s ease,
+                  top 0.4s ease, left 0.4s ease, right 0.4s ease,
+                  border-radius 0.4s ease, background 0.4s ease;
     }
-
+    .nav-item-wrap {
+      overflow: hidden;
+    }
+    .nav-item-slide {
+      transform: translateY(-110%);
+      will-change: transform;
+    }
     nav.scrolled {
+      top: 12px;
+      left: 16px;
+      right: 16px;
+      border-radius: 100px;
+      background: rgba(0,0,0,0.13);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 2px 40px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 2px 40px rgba(0,0,0,0.3);
     }
-
     nav a {
       color: var(--white);
       text-decoration: none;
@@ -81,7 +77,54 @@
       text-transform: uppercase;
       transition: opacity 0.2s;
     }
-    nav a:hover { opacity: 0.6; }
+    nav a:hover { opacity: 0.5; }
+
+    /* ─── LANG TOGGLE ─── */
+    .lang-toggle-wrap {
+      position: absolute;
+      right: 36px;
+      z-index: 10;
+    }
+    .lang-toggle {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      padding: 4px;
+      border-radius: 100px;
+      background: rgba(0,0,0,0.13);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow:
+        0 4px 20px rgba(0,0,0,0.2);
+      cursor: pointer;
+      user-select: none;
+      clip-path: inset(50% round 100px);
+    }
+    .lang-option {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      padding: 8px 16px;
+      position: relative;
+      z-index: 1;
+      transition: opacity 0.3s ease;
+      text-transform: uppercase;
+    }
+    .lang-option.active { opacity: 1; }
+    .lang-option:not(.active) { opacity: 0.38; }
+    .lang-thumb {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      height: calc(100% - 8px);
+      border-radius: 100px;
+      background: rgba(255,255,255,0.14);
+      box-shadow:
+        0 2px 8px rgba(0,0,0,0.15);
+      transition: transform 0.38s cubic-bezier(.22,.68,0,1.2), width 0.38s cubic-bezier(.22,.68,0,1.2);
+      pointer-events: none;
+    }
 
     /* ─── HERO ─── */
     #hero {
@@ -93,32 +136,22 @@
       display: flex;
       align-items: center;
     }
-
     .hero-photo {
       position: absolute;
       inset: 0;
       width: 100%;
-      height: 100%;
+      height: 120%;
       object-fit: cover;
-      object-position: center top;
+      object-position: 65% top;
       display: block;
+      will-change: transform;
     }
-
-    /* Placeholder — удали когда добавишь фото */
-    .hero-photo-placeholder {
-      position: absolute;
-      right: 0; top: 0;
-      height: 100%; width: 58%;
-      background: linear-gradient(160deg, #d43d1e 0%, #b02c10 100%);
-    }
-
     .hero-content {
       position: relative;
       z-index: 10;
       padding: 0 24px calc(80px + 10vh);
       width: 100%;
     }
-
     .hero-title {
       font-family: 'Druk Cyr', 'Helvetica Neue', sans-serif;
       font-size: clamp(81px, 22.5vw, 306px);
@@ -126,24 +159,63 @@
       letter-spacing: -0.01em;
       color: var(--white);
       text-transform: uppercase;
-      -webkit-text-stroke: 0;
+      font-weight: 500;
+      font-synthesis: none;
+      -webkit-font-smoothing: antialiased;
+    }
+    .line-wrap {
+      display: block;
+      overflow: hidden;
+      padding-bottom: 0.18em;
+      margin-bottom: -0.18em;
+    }
+    .hero-line {
+      display: block;
+      will-change: transform;
+      transform: translateY(110%);
     }
 
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 1; transform: translateY(0); }
-      50% { opacity: 0.4; transform: translateY(6px); }
-    }
-
-    .hero-scroll {
+    /* ─── MARQUEE ─── */
+    .marquee-strip {
       position: absolute;
-      bottom: calc(28px + 4vh);
-      left: 24px;
-      font-size: 27px;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-      color: var(--white);
+      bottom: 40px; left: 0; right: 0;
       z-index: 10;
-      animation: scrollPulse 2.4s ease-in-out infinite;
+      overflow: hidden;
+    }
+    .marquee-slide {
+      transform: translateY(110%);
+      will-change: transform;
+      padding: 13px 0;
+    }
+    .marquee-inner {
+      display: flex;
+      width: max-content;
+      will-change: transform;
+    }
+    .marquee-track {
+      display: flex;
+      flex-shrink: 0;
+    }
+    .marquee-item {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 80px;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      text-transform: uppercase;
+      padding: 0 14px;
+      display: inline-block;
+      white-space: nowrap;
+    }
+    .marquee-div {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 80px;
+      font-weight: 200;
+      color: rgba(225,225,225,0.25);
+      line-height: 1;
+      display: inline;
+      position: relative;
+      top: 0.12em;
     }
 
     /* ─── PROJECTS ─── */
@@ -151,13 +223,11 @@
       padding: 36px;
       background: var(--black);
     }
-
     .projects-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
     }
-
     .card {
       background: var(--light);
       border-radius: 36px;
@@ -165,25 +235,23 @@
       position: relative;
       cursor: pointer;
       aspect-ratio: 4/3;
-      transition: transform 0.35s cubic-bezier(.22,.68,0,1.2);
+      transition: transform 0.4s cubic-bezier(.22,.68,0,1.2);
       display: block;
       text-decoration: none;
+      clip-path: inset(100% 0 0 0 round 36px);
+      will-change: clip-path, transform;
     }
-
     .card.wide {
       grid-column: 1 / -1;
       aspect-ratio: 21/9;
     }
-
     .card img {
       width: 100%; height: 100%;
       object-fit: cover;
       object-position: top;
       display: block;
     }
-
-    .card:hover { transform: scale(1.025); }
-
+    .card:hover { transform: scale(1.02); }
     .card-overlay {
       position: absolute;
       inset: 0;
@@ -193,50 +261,57 @@
       justify-content: space-between;
       padding: 22px 26px;
     }
-
     .card-label {
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-size: 15px;
       font-weight: 500;
       letter-spacing: -0.02em;
       color: var(--white);
+      -webkit-font-smoothing: antialiased;
     }
-
     .card-arrow {
       font-size: 20px;
       color: var(--white);
       opacity: 0;
-      transform: translateX(-6px);
+      transform: translateX(-8px);
       transition: opacity 0.3s, transform 0.3s;
     }
-
-    .card:hover .card-arrow {
-      opacity: 1;
-      transform: translateX(0);
-    }
+    .card:hover .card-arrow { opacity: 1; transform: translateX(0); }
 
     /* ─── ABOUT ─── */
     #about {
       padding: 80px 36px 96px;
       background: var(--black);
     }
-
     .about-heading {
       font-family: 'Druk Cyr', 'Helvetica Neue', sans-serif;
       font-size: clamp(81px, 22.5vw, 306px);
       line-height: 0.79;
       color: var(--white);
-      margin-bottom: 40px;
       text-transform: uppercase;
       letter-spacing: -0.01em;
+      font-weight: 500;
+      font-synthesis: none;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+      display: block;
+      padding-bottom: 0.18em;
+      margin-bottom: calc(40px - 0.18em);
     }
-
+    .about-heading-inner {
+      display: block;
+      will-change: transform;
+      transform: translateY(110%);
+    }
     .about-body {
       max-width: 560px;
       font-size: 15px;
       line-height: 1.75;
       color: var(--white);
       margin-bottom: 80px;
+      opacity: 0;
+      transform: translateY(28px);
+      will-change: opacity, transform;
     }
 
     /* ─── FAQ ─── */
@@ -244,12 +319,13 @@
       margin-top: 80px;
       border-top: 1px solid rgba(225,225,225,0.15);
     }
-
     .faq-item {
       border-bottom: 1px solid rgba(225,225,225,0.15);
       overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      will-change: opacity, transform;
     }
-
     .faq-question {
       width: 100%;
       background: none;
@@ -267,7 +343,6 @@
       gap: 24px;
       letter-spacing: -0.02em;
     }
-
     .faq-question span.icon {
       font-size: 24px;
       line-height: 1;
@@ -275,12 +350,10 @@
       flex-shrink: 0;
       opacity: 0.5;
     }
-
     .faq-item.open .faq-question span.icon {
       transform: rotate(45deg);
       opacity: 1;
     }
-
     .faq-answer {
       max-height: 0;
       overflow: hidden;
@@ -290,7 +363,6 @@
       color: rgba(225,225,225,0.6);
       padding: 0;
     }
-
     .faq-item.open .faq-answer {
       max-height: 300px;
       padding-bottom: 28px;
@@ -306,7 +378,6 @@
       flex-direction: column;
       justify-content: space-between;
     }
-
     .contact-heading {
       font-family: 'Druk Cyr', 'Helvetica Neue', sans-serif;
       font-size: clamp(81px, 22.5vw, 306px);
@@ -316,15 +387,30 @@
       justify-content: space-between;
       align-items: flex-start;
       text-transform: uppercase;
+      font-weight: 500;
+      font-synthesis: none;
+      -webkit-font-smoothing: antialiased;
     }
-
+    .contact-word-wrap {
+      overflow: hidden;
+      display: inline-block;
+      padding-bottom: 0.18em;
+      margin-bottom: -0.18em;
+    }
+    .contact-word {
+      display: inline-block;
+      will-change: transform;
+      transform: translateY(110%);
+    }
     .contact-links {
       display: flex;
       gap: 36px;
       flex-wrap: wrap;
       margin-top: 56px;
+      opacity: 0;
+      transform: translateY(20px);
+      will-change: opacity, transform;
     }
-
     .contact-link {
       color: var(--black);
       text-decoration: none;
@@ -336,8 +422,42 @@
       padding-bottom: 3px;
       transition: opacity 0.2s;
     }
-
     .contact-link:hover { opacity: 0.4; }
+    /* ─── HERO CTA ─── */
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      position: absolute;
+      left: 24px;
+      z-index: 20;
+      padding: 18px 64px;
+      justify-content: center;
+      min-width: 330px;
+      clip-path: inset(50% round 100px);
+      border-radius: 100px;
+      background: rgba(0,0,0,0.13);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: background 0.25s ease, box-shadow 0.25s ease;
+    }
+    .hero-cta:hover {
+      background: rgba(0,0,0,0.25);
+      box-shadow: 0 6px 32px rgba(0,0,0,0.12);
+    }
+    .hero-cta-arrow {
+      font-size: 16px;
+      transition: transform 0.25s ease;
+    }
+    .hero-cta:hover .hero-cta-arrow { transform: translateX(3px); }
 
     .contact-scroll {
       font-size: 10px;
@@ -346,72 +466,110 @@
       opacity: 0.35;
       margin-top: 60px;
     }
-
-    /* ─── SCROLL REVEAL ─── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
   </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav>
-  <a href="#projects">Projects</a>
-  <a href="#about">About</a>
-  <a href="#contact">Contact</a>
+<nav id="nav">
+  <div class="nav-item-wrap"><div class="nav-item-slide"><a href="#projects" data-uk="Проєкти" data-en="Projects">Проєкти</a></div></div>
+  <div class="nav-item-wrap"><div class="nav-item-slide"><a href="#about" data-uk="Про нас" data-en="About">Про нас</a></div></div>
+  <div class="nav-item-wrap"><div class="nav-item-slide"><a href="#contact" data-uk="Контакт" data-en="Contact">Контакт</a></div></div>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
   <img class="hero-photo" src="DSC00748 1.jpg" alt="Porotikow" />
   <div class="hero-content">
-    <h1 class="hero-title">Porotikow<br>Agency</h1>
+    <h1 class="hero-title">
+      <span class="line-wrap"><span class="hero-line"><span id="porotikow-text">Porotikow</span></span></span>
+      <span class="line-wrap"><span class="hero-line">Agency</span></span>
+    </h1>
   </div>
-  <p class="hero-scroll">Scroll to explore</p>
+  <a class="hero-cta" id="heroCta" href="#contact"
+     data-uk="Зв'язатися" data-en="Get in touch">
+    Зв'язатися
+  </a>
+  <div class="lang-toggle-wrap">
+    <div class="lang-toggle" id="langToggle">
+      <span class="lang-option"        data-lang="uk">УКР</span>
+      <span class="lang-option active" data-lang="en">ENG</span>
+      <span class="lang-thumb" id="langThumb"></span>
+    </div>
+  </div>
+  <div class="marquee-strip">
+    <div class="marquee-slide">
+    <div class="marquee-inner" id="marqueeInner">
+      <div class="marquee-track" id="marqueeTrack">
+        <span class="marquee-item" data-uk="Веб-розробка" data-en="Web Dev">Веб-розробка</span><span class="marquee-div">/</span>
+        <span class="marquee-item" data-uk="SEO"          data-en="SEO">SEO</span><span class="marquee-div">/</span>
+        <span class="marquee-item" data-uk="Брендинг"     data-en="Branding">Брендинг</span><span class="marquee-div">/</span>
+        <span class="marquee-item" data-uk="Дизайн"       data-en="Design">Дизайн</span><span class="marquee-div">/</span>
+        <span class="marquee-item" data-uk="Веб-розробка" data-en="Web Dev">Веб-розробка</span><span class="marquee-div">/</span>
+        <span class="marquee-item" data-uk="SEO"          data-en="SEO">SEO</span><span class="marquee-div">/</span>
+        <span class="marquee-item" data-uk="Брендинг"     data-en="Branding">Брендинг</span><span class="marquee-div">/</span>
+        <span class="marquee-item" data-uk="Дизайн"       data-en="Design">Дизайн</span><span class="marquee-div">/</span>
+      </div>
+      <div class="marquee-track" aria-hidden="true">
+        <span class="marquee-item" data-uk="Веб-розробка" data-en="Web Dev">Веб-розробка</span><span class="marquee-div">/</span>
+        <span class="marquee-item" data-uk="SEO"          data-en="SEO">SEO</span><span class="marquee-div">/</span>
+        <span class="marquee-item" data-uk="Брендинг"     data-en="Branding">Брендинг</span><span class="marquee-div">/</span>
+        <span class="marquee-item" data-uk="Дизайн"       data-en="Design">Дизайн</span><span class="marquee-div">/</span>
+        <span class="marquee-item" data-uk="Веб-розробка" data-en="Web Dev">Веб-розробка</span><span class="marquee-div">/</span>
+        <span class="marquee-item" data-uk="SEO"          data-en="SEO">SEO</span><span class="marquee-div">/</span>
+        <span class="marquee-item" data-uk="Брендинг"     data-en="Branding">Брендинг</span><span class="marquee-div">/</span>
+        <span class="marquee-item" data-uk="Дизайн"       data-en="Design">Дизайн</span><span class="marquee-div">/</span>
+      </div>
+    </div>
+    </div>
+  </div>
 </section>
 
 <!-- PROJECTS -->
 <section id="projects">
   <div class="projects-grid">
 
-    <a class="card wide reveal" href="https://benchmarkremodelingwa.com/" target="_blank" rel="noopener">
+    <a class="card wide" href="https://benchmarkremodelingwa.com/" target="_blank" rel="noopener">
       <img src="benchmark.jpg" alt="Benchmark Remodeling" />
       <div class="card-overlay">
-        <span class="card-label">Benchmark Remodeling / Веб-розробка</span>
+        <span class="card-label" data-uk="Benchmark Remodeling / Веб-розробка" data-en="Benchmark Remodeling / Web Development">Benchmark Remodeling / Веб-розробка</span>
         <span class="card-arrow">→</span>
       </div>
     </a>
 
-    <div class="card reveal">
-      <!-- <img src="projects/project-2.jpg" alt="Проєкт 2" /> -->
-      <div class="card-overlay"><span class="card-label">Проєкт 2</span><span class="card-arrow">→</span></div>
+    <div class="card">
+      <div class="card-overlay">
+        <span class="card-label" data-uk="Проєкт 2" data-en="Project 2">Проєкт 2</span>
+        <span class="card-arrow">→</span>
+      </div>
     </div>
 
-    <div class="card reveal">
-      <!-- <img src="projects/project-3.jpg" alt="Проєкт 3" /> -->
-      <div class="card-overlay"><span class="card-label">Проєкт 3</span><span class="card-arrow">→</span></div>
+    <div class="card">
+      <div class="card-overlay">
+        <span class="card-label" data-uk="Проєкт 3" data-en="Project 3">Проєкт 3</span>
+        <span class="card-arrow">→</span>
+      </div>
     </div>
 
-    <div class="card wide reveal">
-      <!-- <img src="projects/project-4.jpg" alt="Проєкт 4" /> -->
-      <div class="card-overlay"><span class="card-label">Проєкт 4</span><span class="card-arrow">→</span></div>
+    <div class="card wide">
+      <div class="card-overlay">
+        <span class="card-label" data-uk="Проєкт 4" data-en="Project 4">Проєкт 4</span>
+        <span class="card-arrow">→</span>
+      </div>
     </div>
 
-    <div class="card reveal">
-      <!-- <img src="projects/project-5.jpg" alt="Проєкт 5" /> -->
-      <div class="card-overlay"><span class="card-label">Проєкт 5</span><span class="card-arrow">→</span></div>
+    <div class="card">
+      <div class="card-overlay">
+        <span class="card-label" data-uk="Проєкт 5" data-en="Project 5">Проєкт 5</span>
+        <span class="card-arrow">→</span>
+      </div>
     </div>
 
-    <div class="card reveal">
-      <!-- <img src="projects/project-6.jpg" alt="Проєкт 6" /> -->
-      <div class="card-overlay"><span class="card-label">Проєкт 6</span><span class="card-arrow">→</span></div>
+    <div class="card">
+      <div class="card-overlay">
+        <span class="card-label" data-uk="Проєкт 6" data-en="Project 6">Проєкт 6</span>
+        <span class="card-arrow">→</span>
+      </div>
     </div>
 
   </div>
@@ -419,54 +577,88 @@
 
 <!-- ABOUT -->
 <section id="about">
-  <h2 class="about-heading reveal">About</h2>
-  <p class="about-body reveal">
+  <h2 class="about-heading">
+    <span class="about-heading-inner">About</span>
+  </h2>
+  <p class="about-body"
+     data-uk="Porotikow Agency — агенція повного циклу для тих, хто хоче зростання в інтернеті. Ми займаємося веб-розробкою, SEO-просуванням та створенням фірмового стилю. Кожен проєкт — це індивідуальний підхід, чіткі терміни та результат, який говорить сам за себе."
+     data-en="Porotikow Agency is a full-cycle digital agency for those who want to grow online. We specialize in web development, SEO promotion, and brand identity. Every project means an individual approach, clear deadlines, and results that speak for themselves.">
     Porotikow Agency — агенція повного циклу для тих, хто хоче зростання в інтернеті.
     Ми займаємося веб-розробкою, SEO-просуванням та створенням фірмового стилю.
     Кожен проєкт — це індивідуальний підхід, чіткі терміни та результат,
     який говорить сам за себе.
   </p>
 
-  <div class="faq reveal">
+  <div class="faq">
 
     <div class="faq-item">
-      <button class="faq-question">
+      <button class="faq-question"
+              data-uk="Скільки коштує розробка сайту?"
+              data-en="How much does a website cost?">
         Скільки коштує розробка сайту?
         <span class="icon">+</span>
       </button>
-      <div class="faq-answer">Вартість залежить від складності проєкту. Лендінг — від 20 000 грн, корпоративний сайт — від 50 000 грн. Точну ціну називаємо після брифу — це безкоштовно.</div>
+      <div class="faq-answer"
+           data-uk="Вартість залежить від складності проєкту. Лендінг — від 20 000 грн, корпоративний сайт — від 50 000 грн. Точну ціну називаємо після брифу — це безкоштовно."
+           data-en="The cost depends on project complexity. A landing page starts from $500, a corporate website from $1,200. We give an exact price after a brief — it's free.">
+        Вартість залежить від складності проєкту. Лендінг — від 20 000 грн, корпоративний сайт — від 50 000 грн. Точну ціну називаємо після брифу — це безкоштовно.
+      </div>
     </div>
 
     <div class="faq-item">
-      <button class="faq-question">
+      <button class="faq-question"
+              data-uk="Скільки часу займає розробка?"
+              data-en="How long does development take?">
         Скільки часу займає розробка?
         <span class="icon">+</span>
       </button>
-      <div class="faq-answer">Лендінг — 7–14 днів. Корпоративний сайт — 3–6 тижнів. Терміни фіксуємо в договорі та не зсуваємо без погодження з клієнтом.</div>
+      <div class="faq-answer"
+           data-uk="Лендінг — 7–14 днів. Корпоративний сайт — 3–6 тижнів. Терміни фіксуємо в договорі та не зсуваємо без погодження з клієнтом."
+           data-en="A landing page takes 7–14 days. A corporate website takes 3–6 weeks. Deadlines are fixed in the contract and never moved without client approval.">
+        Лендінг — 7–14 днів. Корпоративний сайт — 3–6 тижнів. Терміни фіксуємо в договорі та не зсуваємо без погодження з клієнтом.
+      </div>
     </div>
 
     <div class="faq-item">
-      <button class="faq-question">
+      <button class="faq-question"
+              data-uk="Ви працюєте з клієнтами з інших міст?"
+              data-en="Do you work with clients from other cities?">
         Ви працюєте з клієнтами з інших міст?
         <span class="icon">+</span>
       </button>
-      <div class="faq-answer">Так, ми працюємо дистанційно по всій Україні та за кордоном. Всі етапи — від брифу до здачі — проходять онлайн через зручні для вас канали зв'язку.</div>
+      <div class="faq-answer"
+           data-uk="Так, ми працюємо дистанційно по всій Україні та за кордоном. Всі етапи — від брифу до здачі — проходять онлайн через зручні для вас канали зв'язку."
+           data-en="Yes, we work remotely across Ukraine and internationally. All stages — from brief to delivery — are handled online through channels convenient for you.">
+        Так, ми працюємо дистанційно по всій Україні та за кордоном. Всі етапи — від брифу до здачі — проходять онлайн через зручні для вас канали зв'язку.
+      </div>
     </div>
 
     <div class="faq-item">
-      <button class="faq-question">
+      <button class="faq-question"
+              data-uk="Що входить у SEO-просування?"
+              data-en="What does SEO promotion include?">
         Що входить у SEO-просування?
         <span class="icon">+</span>
       </button>
-      <div class="faq-answer">Технічний аудит, робота з семантикою, оптимізація контенту, нарощування посилальної маси та щомісячна звітність. Результати помітні через 2–3 місяці.</div>
+      <div class="faq-answer"
+           data-uk="Технічний аудит, робота з семантикою, оптимізація контенту, нарощування посилальної маси та щомісячна звітність. Результати помітні через 2–3 місяці."
+           data-en="Technical audit, semantic research, content optimization, link building, and monthly reporting. Results become visible after 2–3 months.">
+        Технічний аудит, робота з семантикою, оптимізація контенту, нарощування посилальної маси та щомісячна звітність. Результати помітні через 2–3 місяці.
+      </div>
     </div>
 
     <div class="faq-item">
-      <button class="faq-question">
+      <button class="faq-question"
+              data-uk="Чи можна передати вже існуючий сайт на підтримку?"
+              data-en="Can I transfer an existing website to your support?">
         Чи можна передати вже існуючий сайт на підтримку?
         <span class="icon">+</span>
       </button>
-      <div class="faq-answer">Так. Беремо сайти на будь-яких платформах. Спочатку проводимо аудит, погоджуємо обсяг робіт та фіксуємо умови в договорі.</div>
+      <div class="faq-answer"
+           data-uk="Так. Беремо сайти на будь-яких платформах. Спочатку проводимо аудит, погоджуємо обсяг робіт та фіксуємо умови в договорі."
+           data-en="Yes. We take on websites built on any platform. We start with an audit, agree on the scope of work, and fix the terms in a contract.">
+        Так. Беремо сайти на будь-яких платформах. Спочатку проводимо аудит, погоджуємо обсяг робіт та фіксуємо умови в договорі.
+      </div>
     </div>
 
   </div>
@@ -475,39 +667,156 @@
 <!-- CONTACT -->
 <section id="contact">
   <div>
-    <div class="contact-heading reveal">
-      <span>Contact</span>
-      <span>Us</span>
+    <div class="contact-heading">
+      <span class="contact-word-wrap"><span class="contact-word">Contact</span></span>
+      <span class="contact-word-wrap"><span class="contact-word">Us</span></span>
     </div>
-    <div class="contact-links reveal">
+    <div class="contact-links" id="contactLinks">
       <a class="contact-link" href="mailto:hello@porotikow.agency">Email</a>
       <a class="contact-link" href="https://t.me/porotikow" target="_blank">Telegram</a>
       <a class="contact-link" href="https://instagram.com/porotikow" target="_blank">Instagram</a>
     </div>
   </div>
-  <p class="contact-scroll">Scroll to explore</p>
+  <p class="contact-scroll">© 2025 Porotikow Agency</p>
 </section>
 
+<!-- GSAP + Lenis -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 <script>
-  // Nav shadow on scroll
-  const nav = document.querySelector('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 10);
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ─── LENIS ─── */
+  const lenis = new Lenis({
+    duration: 1.6,
+    easing: t => 1 - Math.pow(1 - t, 4),
+    smoothWheel: true,
+    wheelMultiplier: 0.8,
+    touchMultiplier: 1.5,
+    lerp: 0.08,
+  });
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add(time => lenis.raf(time * 1000));
+  gsap.ticker.lagSmoothing(0);
+
+  /* ─── LANG TOGGLE POSITION ─── */
+  function positionToggle() {
+    const lineWraps    = document.querySelectorAll('.line-wrap');
+    const porotikow    = lineWraps[0];
+    const agencyWrap   = lineWraps[lineWraps.length - 1];
+    const hero         = document.getElementById('hero');
+    const heroRect     = hero.getBoundingClientRect();
+    const heroBottom   = heroRect.bottom;
+    const porotRight   = document.getElementById('porotikow-text').getBoundingClientRect().right;
+    const wrapBottom   = agencyWrap.getBoundingClientRect().bottom;
+
+    // CTA + toggle: same bottom level, aligned with AGENCY text
+    const cta     = document.getElementById('heroCta');
+    const toggle  = document.querySelector('.lang-toggle-wrap');
+    const ctaW    = cta.offsetWidth;
+    const ctaH    = cta.offsetHeight;
+    const toggleH = toggle.offsetHeight;
+    const bottom  = heroBottom - wrapBottom + ctaH - 10;
+
+    cta.style.bottom    = bottom + 'px';
+    cta.style.left      = (porotRight - heroRect.left - ctaW) + 'px';
+    toggle.style.bottom = (heroBottom - wrapBottom + toggleH + 6) + 'px';
+  }
+  document.fonts.ready.then(() => {
+    positionToggle();
+  });
+  window.addEventListener('resize', positionToggle);
+
+  /* ─── HERO ANIMATIONS ─── */
+  gsap.to('.nav-item-slide', {
+    y: '0%', duration: 1.1, ease: 'power4.out', delay: 0.1,
   });
 
-  // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
+  gsap.to('.hero-line', {
+    y: '0%', duration: 1.1, stagger: 0.13, ease: 'power4.out', delay: 0.1,
+  });
+
+  gsap.to('.marquee-slide', {
+    y: '0%', duration: 1.1, ease: 'power4.out', delay: 0.1,
+  });
+
+  gsap.to('#heroCta', {
+    clipPath: 'inset(0% round 100px)', duration: 0.5, ease: 'power2.out', delay: 0.6,
+  });
+
+  gsap.to('.lang-toggle', {
+    clipPath: 'inset(0% round 100px)', duration: 0.5, ease: 'power2.out', delay: 0.6,
+  });
+
+  /* ─── PARALLAX ─── */
+  gsap.to('.hero-photo', {
+    yPercent: 22, ease: 'none',
+    scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+  });
+
+  /* ─── SCROLL REVEALS ─── */
+  gsap.to('.card', {
+    clipPath: 'inset(0% 0 0 0 round 36px)', duration: 1.05, stagger: 0.1, ease: 'power4.out',
+    scrollTrigger: { trigger: '.projects-grid', start: 'top 82%' }
+  });
+
+  gsap.to('.about-heading-inner', {
+    y: '0%', duration: 1.1, ease: 'power4.out',
+    scrollTrigger: { trigger: '.about-heading', start: 'top 82%' }
+  });
+
+  gsap.to('.about-body', {
+    opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+    scrollTrigger: { trigger: '.about-body', start: 'top 85%' }
+  });
+
+  gsap.to('.faq-item', {
+    opacity: 1, y: 0, duration: 0.65, stagger: 0.09, ease: 'power3.out',
+    scrollTrigger: { trigger: '.faq', start: 'top 80%' }
+  });
+
+  gsap.to('.contact-word', {
+    y: '0%', duration: 1.1, stagger: 0.12, ease: 'power4.out',
+    scrollTrigger: { trigger: '#contact', start: 'top 78%' }
+  });
+
+  gsap.to('#contactLinks', {
+    opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+    scrollTrigger: { trigger: '#contactLinks', start: 'top 88%' }
+  });
+
+  /* ─── MARQUEE ─── */
+  const trackW = document.getElementById('marqueeTrack').offsetWidth;
+  const marquee = {
+    tween: gsap.to('#marqueeInner', { x: -trackW, duration: 40, ease: 'none', repeat: -1 })
+  };
+
+  let targetSpeed = 1, currentSpeed = 1;
+  gsap.ticker.add(() => {
+    currentSpeed += (targetSpeed - currentSpeed) * 0.08;
+    targetSpeed  += (1 - targetSpeed) * 0.06;
+    marquee.tween.timeScale(currentSpeed);
+  });
+
+  /* ─── NAV ─── */
+  const navEl = document.querySelector('nav');
+  lenis.on('scroll', ({ scroll, velocity }) => {
+    navEl.classList.toggle('scrolled', scroll > 10);
+    targetSpeed = 1 + Math.abs(velocity) * 0.8;
+  });
+
+  /* ─── SMOOTH ANCHOR LINKS ─── */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, { offset: 0, duration: 1.2 });
     });
-  }, { threshold: 0.12 });
+  });
 
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-  // FAQ accordion
+  /* ─── FAQ ─── */
   document.querySelectorAll('.faq-question').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.parentElement;
@@ -516,6 +825,58 @@
       if (!isOpen) item.classList.add('open');
     });
   });
+
+  /* ─── LANG TOGGLE ─── */
+  const toggle   = document.getElementById('langToggle');
+  const options  = toggle.querySelectorAll('.lang-option');
+  const thumb    = document.getElementById('langThumb');
+  let   lang     = 'en';
+
+  function positionThumb(opt) {
+    thumb.style.width     = opt.offsetWidth + 'px';
+    thumb.style.transform = `translateX(${opt.offsetLeft - 4}px)`;
+  }
+
+  // Init thumb position + apply default language
+  requestAnimationFrame(() => positionThumb(options[1]));
+  applyLang('en');
+
+  toggle.addEventListener('click', () => {
+    lang = lang === 'uk' ? 'en' : 'uk';
+    options.forEach(o => o.classList.toggle('active', o.dataset.lang === lang));
+    positionThumb(toggle.querySelector('.lang-option.active'));
+    applyLang(lang);
+  });
+
+  function applyLang(l) {
+    // All translatable elements
+    document.querySelectorAll('[data-uk][data-en]').forEach(el => {
+      if (el.classList.contains('faq-question')) return;
+      if (el.classList.contains('hero-cta')) {
+        // Keep size fixed — only swap text node
+        el.childNodes[0].textContent = el.dataset[l];
+        return;
+      }
+      el.textContent = el.dataset[l];
+    });
+
+    // FAQ questions (preserve icon span)
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      const icon = btn.querySelector('.icon');
+      btn.childNodes[0].textContent = btn.dataset[l] + ' ';
+    });
+
+    // Marquee: update text + restart tween
+    document.querySelectorAll('.marquee-item').forEach(el => {
+      el.textContent = el.dataset[l];
+    });
+    marquee.tween.kill();
+    gsap.set('#marqueeInner', { x: 0 });
+    const newW = document.getElementById('marqueeTrack').offsetWidth;
+    marquee.tween = gsap.to('#marqueeInner', {
+      x: -newW, duration: 40, ease: 'none', repeat: -1,
+    });
+  }
 </script>
 
 </body>
